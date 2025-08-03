@@ -92,7 +92,12 @@ class TarifFragment : Fragment() {
                     tarifDao.findById(id)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe()
+                        .subscribe({ tarif ->
+                            tarifFromListe = tarif
+                            handleResponse(tarif)
+                        }, { error ->
+                            error.printStackTrace()
+                        })
 
                 )
 
