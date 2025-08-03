@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
@@ -87,11 +88,23 @@ class TarifFragment : Fragment() {
                 binding.KaydetButton.isEnabled = false
                 val id=TarifFragmentArgs.fromBundle(it).id
 
-                tarifDao.findById(id)
+                mDisposable.add(
+                    tarifDao.findById(id)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe()
+
+                )
+
             }
         }
     }
+private fun handleResponse(tarif: Tarif){
+    binding.editText.setText(tarif.isim)
+    binding.malzemeText.setText(tarif.malzeme)
+    val bitmap=BitmapFactory.decodeByteArray(tarif.gorsel,0,tarif.gorsel.size)
 
+}
     private fun kaydet() {
         val isim=binding.editText.text.toString()
         val malzeme=binding.malzemeText.text.toString()
@@ -108,11 +121,15 @@ class TarifFragment : Fragment() {
 
 //rxjava
             mDisposable.add(
-            tarifDao.insert(tarif)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::handleResponseForInsert)
-
+                tarifDao.insert(tarif)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+                        handleResponseForInsert()
+                    }, { error ->
+                        error.printStackTrace()
+                        Toast.makeText(requireContext(), "Kaydetme sırasında hata: ${error.localizedMessage}", Toast.LENGTH_LONG).show()
+                    })
             )
 
         }

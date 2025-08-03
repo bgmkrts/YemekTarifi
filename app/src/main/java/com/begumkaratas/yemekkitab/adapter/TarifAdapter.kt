@@ -9,10 +9,10 @@ import com.begumkaratas.yemekkitab.model.Tarif
 import com.begumkaratas.yemekkitab.view.ListeFragmentDirections
 
 class TarifAdapter(val tarifListesi: List<Tarif>) : RecyclerView.Adapter<TarifAdapter.tarifHolder>() {
-    class tarifHolder(val recyclerRowBinding: RecyclerRowBinding) : RecyclerView.ViewHolder(recyclerRowBinding.root)
+    class tarifHolder(val binding: RecyclerRowBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): tarifHolder {
-        val recyclerRowBinding: RecyclerRowBinding = RecyclerRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val recyclerRowBinding = RecyclerRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return tarifHolder(recyclerRowBinding)
     }
 
@@ -21,11 +21,11 @@ class TarifAdapter(val tarifListesi: List<Tarif>) : RecyclerView.Adapter<TarifAd
     }
 
     override fun onBindViewHolder(holder: tarifHolder, position: Int) {
-holder.recyclerRowBinding.tarifRecyclerView.text=tarifListesi[position].isim
-        holder.itemView.setOnClickListener{
-            val action=ListeFragmentDirections.actionListeFragmentToTarifFragment(bilgi="eski",id=tarifListesi[position].id)
+        holder.binding.tarifIsimTextView.text = tarifListesi[position].isim
+        holder.itemView.setOnClickListener {
+            val action = ListeFragmentDirections.actionListeFragmentToTarifFragment(bilgi = "eski", id = tarifListesi[position].id)
             Navigation.findNavController(it).navigate(action)
-    }
+        }
 
-}
+    }
 }

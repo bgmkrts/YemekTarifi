@@ -15,7 +15,7 @@ interface TarifDAO {
     fun getAll():Flowable<List<Tarif>>
     @Query("Select * from Tarif where id=:id")
 
-    fun findById(id: Int): Flowable<Tarif>
+    fun findById(id: Int): io.reactivex.rxjava3.core.Single<Tarif>
 
     @Insert
     fun insert(tarif:Tarif):Completable
