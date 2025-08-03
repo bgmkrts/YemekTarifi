@@ -33,7 +33,7 @@ class ListeFragment : Fragment() {
         db= Room.databaseBuilder(requireContext(),TarifDatabase::class.java,"Tarifler")
             // .allowMainThreadQueries()
             .build()
-        tarifDao=db. TarifDAO()
+        tarifDao = db.tarifDao()
 
 
     }
@@ -57,6 +57,7 @@ class ListeFragment : Fragment() {
 
         binding.floatingActionButton.setOnClickListener{yeniEkle(it)}
         binding.tarifRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        verileriAl()
 
     }
    private fun yeniEkle(view: View){
@@ -73,15 +74,17 @@ class ListeFragment : Fragment() {
                 .subscribeOn(Schedulers.io())
                 .observeOn( AndroidSchedulers.mainThread())
                 .subscribe(this::handleResponse)
+
+
         )
     }
     private fun handleResponse(tarifler: List<Tarif>){
-       /*tarifler.forEach{
+       tarifler.forEach{
             println(it.isim)
             println(it.malzeme)
-        }*/
-        val adapter=TarifAdapter(tarifler)
-        binding.tarifRecyclerView.adapter=adapter
+        }
+        //val adapter=TarifAdapter(tarifler)
+        //binding.tarifRecyclerView.adapter=adapter
 
 
     }

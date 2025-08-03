@@ -58,7 +58,7 @@ class TarifFragment : Fragment() {
         db=Room.databaseBuilder(requireContext(),TarifDatabase::class.java,"Tarifler")
            // .allowMainThreadQueries()
             .build()
-        tarifDao=db. TarifDAO()
+        tarifDao=db. tarifDao()
     }
 
     override fun onCreateView(
@@ -104,7 +104,7 @@ class TarifFragment : Fragment() {
             kucukBitmap.compress(Bitmap.CompressFormat.PNG,50, outputStream)
             val byteDizisi=outputStream.toByteArray()
 
-            val tarif = Tarif(isim = isim, malzeme = malzeme, gorsel = byteDizisi)
+            val tarif = Tarif(isim, malzeme,  byteDizisi)
 
 //rxjava
             mDisposable.add(

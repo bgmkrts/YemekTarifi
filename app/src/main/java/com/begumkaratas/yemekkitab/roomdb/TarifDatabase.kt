@@ -4,9 +4,8 @@ import androidx.room.RoomDatabase
 import com.begumkaratas.yemekkitab.model.Tarif
 import com.begumkaratas.yemekkitab.roomdb.TarifDAO
 
-@Database
-    (entities = [Tarif::class], version = 1)
+@Database (entities = [Tarif::class], version = 1)
 abstract class TarifDatabase : RoomDatabase() {
-    abstract fun TarifDAO(): TarifDAO
+    abstract fun tarifDao(): TarifDAO
 }
 
